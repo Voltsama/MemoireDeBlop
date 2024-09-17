@@ -6,7 +6,7 @@ panelDiv.addEventListener('click', () => {
 });
 
 // TODO: add pos visual in blue
-let array = [[]];
+let array = [];
 let height = 4;
 let width = 6;
 let index = 0;
