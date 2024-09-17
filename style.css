@@ -1,0 +1,40 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-size: larger;
+}
+
+#panel {
+    width: 100dvw;
+    height: 100dvh;
+    background-color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#console {
+    width: 400px;
+    height: 400px;
+    background-color: black;
+    color: green;
+    line-height: 30px;
+    text-align: center;
+}
+
+#input {
+    width: 400px;
+    height: 40px;
+    background-color: black;
+    color: greenyellow;
+}
+
+.selected {
+    color: red;
+}
+
+.found {
+    color: yellow;
+}
