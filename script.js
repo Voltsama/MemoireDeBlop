@@ -5,7 +5,6 @@ panelDiv.addEventListener('click', () => {
     input.focus();
 });
 
-// TODO: add pos visual in blue
 let array = [];
 let height = 4;
 let width = 6;
@@ -78,13 +77,17 @@ function printArray(){
     let spaceChar = ' | ';
     let linebreack = '<br>'
     consoleDiv.innerHTML = '';
+    console.log(foundIndexWidth);
+
     for (let i = 0; i < array.length; i++) {
         consoleDiv.innerHTML = consoleDiv.innerHTML + ' | '
         for (let j = 0; j < array[i].length; j++) {
+            // add selected tag if case is in the index pos
             if ( Math.floor(index / height) == i && index % height == j) {
                 consoleDiv.innerHTML = consoleDiv.innerHTML + '<span class="selected">' +  array[i][j] + '</span>' + spaceChar ;
             }
-            else if ( foundIndexWidth == i && foundIndexHeight == j) {
+            // add found tag if it the found case or if it the case right before the selected
+            else if ( foundIndexWidth == i && foundIndexHeight == j || foundIndexWidth >= 0 && Math.floor((index - 1) / height) == i && (index - 1) % height == j) {
                 consoleDiv.innerHTML = consoleDiv.innerHTML + '<span class="found">' +  array[i][j] + '</span>' + spaceChar ;
             }
             else consoleDiv.innerHTML = consoleDiv.innerHTML +  array[i][j] +  spaceChar;
