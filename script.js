@@ -64,8 +64,8 @@ function addToArray(value) {
 }
 
 function newGame() {
-    initArray();
     index = 0;
+    initArray();
 }
 
 function MouvCursor(value) {
