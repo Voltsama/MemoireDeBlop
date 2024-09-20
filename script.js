@@ -26,14 +26,6 @@ function onChange()  {
     foundIndexWidth = -1;
     foundIndexHeight = -1;
     let found = false;
-    for (let i = 0; i < valueRef.length; i++) {
-        if (valueRef[i] == value ) {
-            checkArray(value);
-            addToArray(value);
-            found = true;
-            break;
-        }
-    }
 
     switch ( value ) {
         case 'n':
@@ -54,6 +46,20 @@ function onChange()  {
 
     if ( found ) {
         input.value = '';
+        return;
+    }
+
+    for (let i = 0; i < valueRef.length; i++) {
+        if (valueRef[i] == value ) {
+            checkArray(value);
+            addToArray(value);
+            found = true;
+            break;
+        }
+    }
+
+    if ( found ) {
+        input.value = '';
     }
 }
 
@@ -69,8 +75,10 @@ function newGame() {
 }
 
 function MouvCursor(value) {
-    index += value;
-    printArray();
+    if ( index > 0 && index < height * width ) {
+        index += value;
+        printArray();
+    }
 }
 
 function printArray(){
@@ -80,19 +88,19 @@ function printArray(){
     console.log(foundIndexWidth);
 
     for (let i = 0; i < array.length; i++) {
-        consoleDiv.innerHTML = consoleDiv.innerHTML + ' | '
+        consoleDiv.innerHTML += ' | '
         for (let j = 0; j < array[i].length; j++) {
             // add selected tag if case is in the index pos
             if ( Math.floor(index / height) == i && index % height == j) {
-                consoleDiv.innerHTML = consoleDiv.innerHTML + '<span class="selected">' +  array[i][j] + '</span>' + spaceChar ;
+                consoleDiv.innerHTML +='<span class="selected">' +  array[i][j] + '</span>' + spaceChar ;
             }
             // add found tag if it the found case or if it the case right before the selected
             else if ( foundIndexWidth == i && foundIndexHeight == j || foundIndexWidth >= 0 && Math.floor((index - 1) / height) == i && (index - 1) % height == j) {
-                consoleDiv.innerHTML = consoleDiv.innerHTML + '<span class="found">' +  array[i][j] + '</span>' + spaceChar ;
+                consoleDiv.innerHTML += '<span class="found">' +  array[i][j] + '</span>' + spaceChar ;
             }
-            else consoleDiv.innerHTML = consoleDiv.innerHTML +  array[i][j] +  spaceChar;
+            else consoleDiv.innerHTML +=  array[i][j] +  spaceChar;
         }
-        consoleDiv.innerHTML = consoleDiv.innerHTML +  linebreack;
+        consoleDiv.innerHTML += linebreack;
     }
     consoleDiv.innerHTML += linebreack;
     consoleDiv.innerHTML += foundPosition;
