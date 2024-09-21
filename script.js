@@ -75,7 +75,7 @@ function newGame() {
 }
 
 function MouvCursor(value) {
-    if ( index > 0 && index < height * width ) {
+    if ( index >= 0 && index <= height * width ) {
         index += value;
         printArray();
     }
