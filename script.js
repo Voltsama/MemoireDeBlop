@@ -78,17 +78,15 @@ function newGame() {
 }
 
 function MouvCursor(value) {
-    if ( index >= 0 && index <= height * width ) {
-        index += value;
-        printArray();
-    }
+    if ( index + value < 0 || index + value > height * width) return;
+    index += value;
+    printArray();
 }
 
 function printArray(){
     let spaceChar = ' | ';
     let linebreack = '<br>'
     consoleDiv.innerHTML = '';
-    console.log(foundIndexWidth);
 
     for (let i = 0; i < array.length; i++) {
         consoleDiv.innerHTML += ' | '
