@@ -16,12 +16,15 @@ let foundIndexHeight = -1;
 
 initArray();
 
-input.addEventListener('input', onChange );
+input.addEventListener('input', (e) => {
+    onChange(e.target.value);
+});
 
-let valueRef =  ['v1', 'v2', 'v3', 'r1', 'r2', 'r3','j1', 'j2', 'j3','b1', 'b2', 'b3'];
+let valueRef =  [ 'r1', 'r2', 'r3','j1', 'j2', 'j3','b1', 'b2', 'b3', 'v1', 'v2', 'v3'];
 
-function onChange()  {
-    let value = input.value;
+addRaccourciButton();
+
+function onChange(value)  {
     foundPosition = '';
     foundIndexWidth = -1;
     foundIndexHeight = -1;
@@ -128,4 +131,43 @@ function checkArray(value) {
             }
         }
     }
+}
+
+
+function addRaccourciButton() {
+    raccourci = document.getElementById("raccourci");
+    //TODO: refacto
+    for (let i = 0; i < valueRef.length; i++) {
+        let button = document.createElement("button");
+        button.setAttribute("id", valueRef[i]);
+        button.innerHTML = valueRef[i].toUpperCase();
+        button.addEventListener("click",(e) => {
+            onChange(e.target.id);
+        });
+        raccourci.append(button);
+    }
+    let plusButton = document.createElement("button");
+    plusButton.setAttribute("id", "plus");
+    plusButton.innerHTML = "Plus";
+    plusButton.addEventListener("click",() => {
+        onChange("+");
+    });
+    raccourci.append(plusButton);
+
+    let minusButton = document.createElement("button");
+    minusButton.setAttribute("id", "moins");
+    minusButton.innerHTML = "Moin";
+    minusButton.addEventListener("click",() => {
+        onChange("-");
+    });
+    raccourci.append(minusButton);
+    
+
+    let newButton = document.createElement("button");
+    newButton.setAttribute("id", "new");
+    newButton.innerHTML = "New";
+    newButton.addEventListener("click",() => {
+        onChange("n");
+    });
+    raccourci.append(newButton);
 }
