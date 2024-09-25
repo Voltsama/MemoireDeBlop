@@ -38,3 +38,70 @@ body {
 .found {
     color: yellow;
 }
+
+#raccourci {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr 1fr 1fr 1fr;
+    row-gap: 10px;
+    gap: 2px;
+}
+
+#raccourci button {
+    height: 50px;
+    width: 60px;
+    border: none;
+}
+
+#raccourci :hover {
+    border: 4px solid black;
+}
+
+
+#r1 {
+    background-color: rgba(255, 0, 0, 0.20);
+}
+
+#r2 {
+    background-color: rgba(255, 0, 0, 0.30);
+}
+
+#r3 {
+    background-color: rgba(255, 0, 0, 0.40);
+}
+
+#v1 {
+    background-color: rgba(0, 255, 0, 0.20);
+}
+
+#v2 {
+    background-color: rgba(0, 255, 0, 0.30);
+}
+
+#v3 {
+    background-color: rgba(0, 255, 0, 0.40);
+}
+
+#b1 {
+    background-color: rgba(0, 0, 255, 0.20);
+}
+
+#b2 {
+    background-color: rgba(0, 0, 255, 0.30);
+}
+
+#b3 {
+    background-color: rgba(0, 0, 255, 0.40);
+}
+
+#j1 {
+    background-color: rgba(255, 255, 0, 0.2);
+}
+
+#j2 {
+    background-color: rgba(255, 255, 0, 0.3);
+}
+
+#j3 {
+    background-color: rgba(255, 255, 0, 0.4);
+}
