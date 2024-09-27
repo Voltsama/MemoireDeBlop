@@ -17,8 +17,7 @@ let index = 0;
 let analyser = new Analyser(height, width);
 let printer = new Printer(height, width);
 
-initArray();
-printer.print(grid, index);
+newGame();
 
 input.addEventListener('input', (e) => {
     onChange(e.target.value);
@@ -38,10 +37,12 @@ function onChange(value)  {
             break;
         case '-':
             MouvCursor(-1);
+            printer.print(grid, index, position, error);
             found = true;
             break;
         case '+':
             MouvCursor(1);
+            printer.print(grid, index, position, error);
             found = true;
             break;
         case 'é':
@@ -50,7 +51,6 @@ function onChange(value)  {
 
     if ( found ) {
         input.value = '';
-        printer.print(grid, index, position, error);
         return;
     }
 
@@ -63,7 +63,7 @@ function onChange(value)  {
             console.log(position);
             
             if ( !isUnique ) {
-                error = "Valeur n'est pas unique";
+                error = "Blop déjà trouver";
                 break;
             }
             addToGrid(value);
@@ -85,6 +85,7 @@ function addToGrid(value) {
 function newGame() {
     index = 0;
     initArray();
+    printer.print(grid, index);
 }
 
 function MouvCursor(value) {
@@ -142,4 +143,3 @@ function addRaccourciButton() {
         raccourci.append(plusButton);
     }
 }
-
