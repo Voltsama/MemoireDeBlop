@@ -1,34 +1,35 @@
+import Analyser from "./analyser.js";
+import Printer from "./printer.js";
+
 let input = document.getElementById("input");
-let consoleDiv = document.getElementById("console");
 let panelDiv = document.getElementById("panel");
 panelDiv.addEventListener('click', () => {
     input.focus();
 });
 
-let array = [];
+
+let valueRef =  [ 'r1', 'r2', 'r3','j1', 'j2', 'j3','b1', 'b2', 'b3', 'v1', 'v2', 'v3'];
+let grid = [];
 let height = 4;
 let width = 6;
 let index = 0;
 
-let foundPosition = '';
-let foundIndexWidth = -1;
-let foundIndexHeight = -1;
+let analyser = new Analyser(height, width);
+let printer = new Printer(height, width);
 
 initArray();
+printer.print(grid, index);
 
 input.addEventListener('input', (e) => {
     onChange(e.target.value);
 });
 
-let valueRef =  [ 'r1', 'r2', 'r3','j1', 'j2', 'j3','b1', 'b2', 'b3', 'v1', 'v2', 'v3'];
-
 addRaccourciButton();
 
 function onChange(value)  {
-    foundPosition = '';
-    foundIndexWidth = -1;
-    foundIndexHeight = -1;
     let found = false;
+    let position = [];
+    let error = "";
 
     switch ( value ) {
         case 'n':
@@ -49,27 +50,36 @@ function onChange(value)  {
 
     if ( found ) {
         input.value = '';
+        printer.print(grid, index, position, error);
         return;
     }
 
     for (let i = 0; i < valueRef.length; i++) {
         if (valueRef[i] == value ) {
-            checkArray(value);
-            addToArray(value);
             found = true;
+            let isUnique = analyser.check(grid, value, index);
+            position = analyser.getPosition();
+            console.log(isUnique);
+            console.log(position);
+            
+            if ( !isUnique ) {
+                error = "Valeur n'est pas unique";
+                break;
+            }
+            addToGrid(value);
             break;
         }
     }
 
     if ( found ) {
         input.value = '';
+        printer.print(grid, index, position, error);
     }
 }
 
-function addToArray(value) {
-    array[Math.floor(index / height)][index % height] = value;
+function addToGrid(value) {
+    grid[Math.floor(index / height)][index % height] = value;
     MouvCursor(1);
-    printArray();
 }
 
 function newGame() {
@@ -80,31 +90,6 @@ function newGame() {
 function MouvCursor(value) {
     if ( index + value < 0 || index + value > height * width) return;
     index += value;
-    printArray();
-}
-
-function printArray(){
-    let spaceChar = ' | ';
-    let linebreack = '<br>'
-    consoleDiv.innerHTML = '';
-
-    for (let i = 0; i < array.length; i++) {
-        consoleDiv.innerHTML += ' | '
-        for (let j = 0; j < array[i].length; j++) {
-            // add selected tag if case is in the index pos
-            if ( Math.floor(index / height) == i && index % height == j) {
-                consoleDiv.innerHTML +='<span class="selected">' +  array[i][j] + '</span>' + spaceChar ;
-            }
-            // add found tag if it the found case or if it the case right before the selected
-            else if ( foundIndexWidth == i && foundIndexHeight == j || foundIndexWidth >= 0 && Math.floor((index - 1) / height) == i && (index - 1) % height == j) {
-                consoleDiv.innerHTML += '<span class="found">' +  array[i][j] + '</span>' + spaceChar ;
-            }
-            else consoleDiv.innerHTML +=  array[i][j] +  spaceChar;
-        }
-        consoleDiv.innerHTML += linebreack;
-    }
-    consoleDiv.innerHTML += linebreack;
-    consoleDiv.innerHTML += foundPosition;
 }
 
 function initArray() {
@@ -114,27 +99,28 @@ function initArray() {
         for (let j = 0; j < height; j++) {
             part[j] = char;
         }
-        array[i] = part;
-    }
-    printArray();
-}
-
-function checkArray(value) {
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
-            if ( array[i][j] == value ) {
-                foundPosition = 'Col: '+ (i + 1) + ' Row: ' + (j + 1);
-                foundIndexHeight = j;
-                foundIndexWidth = i;
-            }
-        }
+        grid[i] = part;
     }
 }
-
 
 function addRaccourciButton() {
+
+    let otherButton = [
+        {
+            name: "Plus",
+            change: "+"
+        },
+        {
+            name: "Moin",
+            change: "-"
+        },
+        {
+            name: "New",
+            change: "n"
+        },
+    ];
     raccourci = document.getElementById("raccourci");
-    //TODO: refacto
+
     for (let i = 0; i < valueRef.length; i++) {
         let button = document.createElement("button");
         button.setAttribute("id", valueRef[i]);
@@ -144,28 +130,16 @@ function addRaccourciButton() {
         });
         raccourci.append(button);
     }
-    let plusButton = document.createElement("button");
-    plusButton.setAttribute("id", "plus");
-    plusButton.innerHTML = "Plus";
-    plusButton.addEventListener("click",() => {
-        onChange("+");
-    });
-    raccourci.append(plusButton);
 
-    let minusButton = document.createElement("button");
-    minusButton.setAttribute("id", "moins");
-    minusButton.innerHTML = "Moin";
-    minusButton.addEventListener("click",() => {
-        onChange("-");
-    });
-    raccourci.append(minusButton);
-    
-
-    let newButton = document.createElement("button");
-    newButton.setAttribute("id", "new");
-    newButton.innerHTML = "New";
-    newButton.addEventListener("click",() => {
-        onChange("n");
-    });
-    raccourci.append(newButton);
+    for (let i = 0; i < otherButton.length; i++) {
+        ;
+        let plusButton = document.createElement("button");
+        plusButton.setAttribute("id", otherButton[i].name.toLowerCase());
+        plusButton.innerHTML = otherButton[i].name;
+        plusButton.addEventListener("click",() => {
+            onChange(otherButton[i].change);
+        });
+        raccourci.append(plusButton);
+    }
 }
+
